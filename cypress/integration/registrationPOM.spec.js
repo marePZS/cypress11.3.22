@@ -29,7 +29,7 @@ describe('register user', ()=>{
         registerPage.lastName.should('be.empty');
     });
 
-    it.only('invalid email', ()=>{    
+    it('invalid email', ()=>{    
         registerPage.register(userData.randomFirstName,userData.randomLastName, userData.invalidEmail, userData.randomPassword, userData.randomPassword);
         cy.url().should('contains', '/register');
         cy.get('p').should('have.class', 'alert').and('have.text', 'The email must be a valid email address.');
@@ -52,8 +52,23 @@ describe('register user', ()=>{
         registerPage.alert.should('have.class', 'alert');
     });
 
-    it('valid registration', ()=>{           
+    it.only('valid registration', ()=>{          
+        cy.intercept({
+            method: 'POST',
+            url: 'https://gallery-api.vivifyideas.com/api/auth/register',
+
+        }).as('registerRequest');
+
         registerPage.register(userData.randomFirstName,userData.randomLastName, userData.randomEmail, userData.randomPassword, userData.randomPassword);
+
+        cy.wait('@registerRequest').then((interception)=>{
+            expect(interception.request.body.first_name).eq(userData.randomFirstName);
+            expect(interception.request.body.last_name).eq(userData.randomLastName);
+            expect(interception.request.body.email).eq(userData.randomEmail);
+            expect(interception.request.body.password).eq(userData.randomPassword);
+            expect(interception.request.body.password_confirmation).eq(userData.randomPassword);
+            expect(interception.response.statusCode).eq(200)
+        })
     });
 
 });

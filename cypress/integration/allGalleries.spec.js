@@ -32,9 +32,11 @@ describe('all galleries page', ()=>{
     it('filter galleries', ()=>{
         //allGalleries.filterGalleries(filterData.filterInput);
         allGalleries.filterGalleries('Global Mobility Administrator')
+        cy.wait(1000)
         cy.get('h2').then((el) => {
           expect(el).contain('Global Mobility Administrator')
         })
+       
         cy.get('p').then((el) => {
           expect(el).contain('marko pzs')
         })
