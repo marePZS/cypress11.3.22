@@ -23,6 +23,7 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
 Cypress.Commands.add('loginViaBackend', ()=>{
     cy.request({
         method: 'POST',
@@ -30,24 +31,24 @@ Cypress.Commands.add('loginViaBackend', ()=>{
         body: {
             email: Cypress.env('testUserEmail'),
             password: Cypress.env('testUserPass')
-        },
-    }).its('body').then((response)=>{
+        }
+    }).its('body').then((response)=>{   
         window.localStorage.setItem('token', response.access_token);
     })
 })
 
-// Cypress.Commands.add('registerViaBackend', (firstName, lastName, email, password)=>{
-//     cy.request({
-//         method: 'POST',
-//         url: 'https://gallery-api.vivifyideas.com/api/auth/register',
-//         body: {
-//             first_name: firstName,
-//             last_name: lastName,
-//             email: email,
-//             password: password,
-//             password_confirmation: password,
-//             terms_and_conditions: true
-//         }
+Cypress.Commands.add('registerViaBackend', (firstName, lastName, email, password)=>{
+    cy.request({
+        method: 'POST',
+        url: 'https://gallery-api.vivifyideas.com/api/auth/register',
+        body: {
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            password: password,
+            password_confirmation: password,
+            terms_and_conditions: true
+        }
 
-//     })
-// })
+    })
+})

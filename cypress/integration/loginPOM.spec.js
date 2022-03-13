@@ -10,11 +10,11 @@ describe('login test POM', ()=>{
         randomPassword: faker.internet.password()
     };
 
-    before('visit gallery page', ()=>{
+    before('visit login page', ()=>{
         cy.visit("/login");
     });
 
-    it('click on the login button', ()=>{
+    it('login', ()=>{
         
         // loginPage.login(userData.randomEmail, userData.randomPassword);
         // cy.get('p').should('be.visible');
@@ -22,14 +22,17 @@ describe('login test POM', ()=>{
         // cy.get('p').should('have.text', 'Bad Credentials');
         // cy.get('p').should('have.css', 'color', 'rgb(114, 28, 36)');
         // cy.get('p').should('have.class', 'alert');
+
         cy.intercept({
             method: 'POST',
             url: 'https://gallery-api.vivifyideas.com/api/auth/login'
-          }).as('loginRequest');
+        }).as('loginRequest');
 
-        loginPage.login('markopzs1@test.com', 'password123');
+        //loginPage.login('markopzs1@test.com', 'password123');
+        cy.loginViaBackend();
 
         cy.wait('@loginRequest').then((interceptObj) => {
+            console.log(interceptObj.response.body.access_token)
             expect(interceptObj.response.statusCode).eq(200)
 
         })
@@ -37,8 +40,8 @@ describe('login test POM', ()=>{
     });
 
     xit('logout', ()=>{
-        //loginPage.logoutBtn.should('have.length', 4);
-        loginPage.logoutBtn.eq(3).click();
+        loginPage.logoutBtn.should('have.length', 4);
+        //loginPage.logoutBtn.eq(3).click();
     });
 
 

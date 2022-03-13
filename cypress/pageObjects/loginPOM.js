@@ -1,4 +1,4 @@
-export default class LoginPage {
+class LoginPage {
 
     get email() {
         return cy.get('#email');
@@ -15,6 +15,10 @@ export default class LoginPage {
     get logoutBtn(){
         return cy.get('.nav-link');
     }
+
+    // get alert(){
+    //     return cy.get('.alert');
+    // };
 
     login(email, password){
         this.email.type(email);

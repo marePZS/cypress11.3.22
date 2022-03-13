@@ -53,22 +53,23 @@ describe('register user', ()=>{
     });
 
     it.only('valid registration', ()=>{          
-        cy.intercept({
-            method: 'POST',
-            url: 'https://gallery-api.vivifyideas.com/api/auth/register',
+        // cy.intercept({
+        //     method: 'POST',
+        //     url: 'https://gallery-api.vivifyideas.com/api/auth/register',
 
-        }).as('registerRequest');
+        // }).as('registerRequest');
+        
+        cy.registerViaBackend('marko', 'pzs', 'markopzs8@test.com', 'password123', 'password123');
+        //registerPage.register(userData.randomFirstName,userData.randomLastName, userData.randomEmail, userData.randomPassword, userData.randomPassword);
 
-        registerPage.register(userData.randomFirstName,userData.randomLastName, userData.randomEmail, userData.randomPassword, userData.randomPassword);
-
-        cy.wait('@registerRequest').then((interception)=>{
-            expect(interception.request.body.first_name).eq(userData.randomFirstName);
-            expect(interception.request.body.last_name).eq(userData.randomLastName);
-            expect(interception.request.body.email).eq(userData.randomEmail);
-            expect(interception.request.body.password).eq(userData.randomPassword);
-            expect(interception.request.body.password_confirmation).eq(userData.randomPassword);
-            expect(interception.response.statusCode).eq(200)
-        })
+        // cy.wait('@registerRequest').then((interception)=>{
+        //     expect(interception.request.body.first_name).eq(userData.randomFirstName);
+        //     expect(interception.request.body.last_name).eq(userData.randomLastName);
+        //     expect(interception.request.body.email).eq(userData.randomEmail);
+        //     expect(interception.request.body.password).eq(userData.randomPassword);
+        //     expect(interception.request.body.password_confirmation).eq(userData.randomPassword);
+        //     expect(interception.response.statusCode).eq(200)
+        // })
     });
 
 });
